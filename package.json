@@ -1,0 +1,31 @@
+{
+    "name": "node-job-queue",
+    "version": "1.0.0",
+    "description": "Simple Redis-backed job queue built with Node.js and TypeScript",
+    "private": true,
+    "type": "module",
+    "main": "dist/index.js",
+    "scripts": {
+        "dev:producer": "tsx watch src/producer.ts",
+        "dev:worker": "tsx watch src/worker.ts",
+        "build": "tsc",
+        "test": "vitest run"
+    },
+    "keywords": [
+        "node",
+        "typescript",
+        "redis",
+        "job-queue"
+    ],
+    "author": "Michal Rais",
+    "license": "ISC",
+    "dependencies": {
+        "ioredis": "^5.7.0"
+    },
+    "devDependencies": {
+        "@types/node": "^25.3.0",
+        "tsx": "^4.20.5",
+        "typescript": "^5.9.2",
+        "vitest": "^3.2.4"
+    }
+}
