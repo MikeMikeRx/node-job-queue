@@ -2,8 +2,6 @@
 
 A Redis-backed job queue built with Node.js and TypeScript.
 
-> 🚧 Work in progress — project is actively evolving.
-
 ## Features
 
 - Redis list based queue
@@ -11,12 +9,13 @@ A Redis-backed job queue built with Node.js and TypeScript.
 - Simple job handler architecture
 - Minimal queue implementation
 
-## Example use cases
+## How it works
 
-- sending emails
-- generating reports
-- image processing
-- background data imports
+Jobs are pushed into a Redis list:
+- LPUSH jobs jobData
+
+Workers consume jobs using:
+- BRPOP jobs
 
 ## Running locally
 
