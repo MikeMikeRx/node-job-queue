@@ -5,8 +5,8 @@ export type Job<T =unknown> = {
     type: string;
     payload: T;
     createdAt: number;
-    attemps: number;
-    maxAttemps: number;
+    attempts: number;
+    maxAttempts: number;
 };
 
 const QUEUE_NAME = "jobs";
@@ -15,15 +15,15 @@ export class JobQueue {
     async enqueue<T>(
         type: string,
         payload: T,
-        maxAttemps = 3
+        maxAttempts = 3
     ): Promise<Job<T>> {
         const job: Job<T> = {
             id: crypto.randomUUID(),
             type,
             payload,
             createdAt: Date.now(),
-            attemps: 0,
-            maxAttemps
+            attempts: 0,
+            maxAttempts
         };
 
         await redis.lpush(QUEUE_NAME, JSON.stringify(job));
@@ -44,7 +44,7 @@ export class JobQueue {
     async requeue(job: Job): Promise<void> {
         const updateJob: Job = {
             ...job,
-            attemps: job.attemps + 1
+            attempts: job.attempts + 1
         };
 
         await redis.lpush(QUEUE_NAME, JSON.stringify(updateJob));
