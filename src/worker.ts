@@ -29,6 +29,13 @@ async function startWorker(): Promise<void> {
             console.log(`Completed job ${job.id}`);
         } catch (err) {
             console.error(`Failed job ${job.id}`, err);
+
+            if (job.attemps < job.maxAttemps) {
+                console.log(`Retrying job ${job.id} (${job.attemps + 1}/${job.maxAttemps})`);
+                await queue.requeue(job);
+            } else {
+                console.error(`Job ${job.id} failed pernamently`);
+            }
         }
     }
 }
