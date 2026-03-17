@@ -7,6 +7,7 @@ async function processJob(job: Job): Promise<void> {
     switch (job.type) {
         case "send-email":
             await handleSendEmail(job.payload as SendEmailPayload);
+            // throw new Error("fail"); // test
             break;
         default:
             throw new Error(`Unknown job type: ${job.type}`);
@@ -35,6 +36,7 @@ async function startWorker(): Promise<void> {
                 await queue.requeue(job);
             } else {
                 console.error(`Job ${job.id} failed permanently`);
+                await queue.moveToFailed(job);
             }
         }
     }

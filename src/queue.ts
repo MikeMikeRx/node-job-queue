@@ -10,6 +10,7 @@ export type Job<T =unknown> = {
 };
 
 const QUEUE_NAME = "jobs";
+const DEAD_LETTER_QUEUE_NAME = "jobs:failed";
 
 export class JobQueue {
     async enqueue<T>(
@@ -48,5 +49,9 @@ export class JobQueue {
         };
 
         await redis.lpush(QUEUE_NAME, JSON.stringify(updateJob));
+    }
+
+    async moveToFailed(job: Job): Promise<void> {
+        await redis.lpush(DEAD_LETTER_QUEUE_NAME, JSON.stringify(job));
     }
 }
